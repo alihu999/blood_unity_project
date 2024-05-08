@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+ <resources>
+
+ <string name="app_name">blood unity</string>
+ <string name="facebook_app_id">830664229086486</string>
+ <string name="facebook_client_token">0a471703cab084af69deedc84f390c0f</string>
+ <string name="fb_login_protocol_scheme">fb94ca868ec04b2982ec0351fcd6b0d907</string>
+
+
+ </resources>
