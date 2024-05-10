@@ -79,6 +79,9 @@ class HomePage extends StatelessWidget {
                       ),
                       ListTile(
                         title: Text("Obtain a unit of blood".tr),
+                        onTap: () {
+                          Get.toNamed(AppRoutes.obtainPage);
+                        },
                       )
                     ],
                   ));

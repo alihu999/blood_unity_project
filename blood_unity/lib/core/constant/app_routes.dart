@@ -5,4 +5,5 @@ class AppRoutes {
   static String verifivation = "/verification";
   static String homePage = "/HomePage";
   static String donatingPage = "/DonatingPage";
+  static String obtainPage = "/obtainPage";
 }

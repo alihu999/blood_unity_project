@@ -1,25 +1,25 @@
-import 'package:blood_unity/core/constant/app_color.dart';
 import 'package:blood_unity/core/constant/blood_group.dart';
-import 'package:blood_unity/core/share/custome_textfield.dart';
-import 'package:blood_unity/core/share/validation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../controller/donating_page_controller.dart';
+import '../../controller/obtain_page_controller.dart';
+import '../../core/constant/app_color.dart';
+import '../../core/share/custome_textfield.dart';
+import '../../core/share/validation.dart';
 import 'widget/governorate_dropdown.dart';
 
-class DonatingPage extends StatelessWidget {
-  const DonatingPage({super.key});
+class ObtainPage extends StatelessWidget {
+  const ObtainPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    DonatingPageControllerImp controller = Get.put(DonatingPageControllerImp());
+    ObtainPageControllerImp controller = Get.put(ObtainPageControllerImp());
     return Scaffold(
       appBar: AppBar(
         iconTheme: const IconThemeData(color: Colors.white),
         centerTitle: true,
         title: Text(
-          "Donating a unit of blood".tr,
+          "Obtain a unit of blood".tr,
           style: const TextStyle(color: Colors.white, fontSize: 20),
         ),
         backgroundColor: AppColors.primaryColor,
@@ -87,7 +87,7 @@ class DonatingPage extends StatelessWidget {
                 onFieldSubmitted: (val) {
                   if (controller.phoneFormState.currentState!.validate()) {
                     FocusScope.of(context)
-                        .requestFocus(controller.maladyFocusNode);
+                        .requestFocus(controller.statusFocusNode);
                   }
                 },
               ),
@@ -96,17 +96,52 @@ class DonatingPage extends StatelessWidget {
               ),
               CustomTextFiled(
                 isPassword: false,
-                lable: "Permanent malady".tr,
+                lable: "Health status".tr,
                 filedColors: AppColors.primaryColor,
-                validator: null,
+                validator: (val) {
+                  if (val!.isEmpty) {
+                    return "You must enter health status".tr;
+                  } else {
+                    return null;
+                  }
+                },
                 suffixicon: const Icon(Icons.local_hospital),
-                textController: controller.malady,
-                formState: controller.maladyFormState,
-                focusNode: controller.maladyFocusNode,
+                textController: controller.status,
+                formState: controller.statusFormState,
+                focusNode: controller.statusFocusNode,
                 keyboardType: TextInputType.name,
                 onFieldSubmitted: (val) {
-                  FocusScope.of(context)
-                      .requestFocus(controller.governorateFocusNode);
+                  if (controller.statusFormState.currentState!.validate()) {
+                    FocusScope.of(context)
+                        .requestFocus(controller.numberUnitsFocusNode);
+                  }
+                },
+              ),
+              const SizedBox(
+                height: 30,
+              ),
+              CustomTextFiled(
+                isPassword: false,
+                lable: "Number of units".tr,
+                filedColors: AppColors.primaryColor,
+                validator: (val) {
+                  if (val == null) {
+                    return "You must enter the number of units";
+                  } else {
+                    return null;
+                  }
+                },
+                suffixicon: const Icon(Icons.numbers),
+                textController: controller.numberUnits,
+                formState: controller.numberUnitsFormState,
+                focusNode: controller.numberUnitsFocusNode,
+                keyboardType: TextInputType.number,
+                onFieldSubmitted: (val) {
+                  if (controller.numberUnitsFormState.currentState!
+                      .validate()) {
+                    FocusScope.of(context)
+                        .requestFocus(controller.governorateFocusNode);
+                  }
                 },
               ),
               const SizedBox(
@@ -116,19 +151,23 @@ class DonatingPage extends StatelessWidget {
               const SizedBox(
                 height: 30,
               ),
-              GetBuilder<DonatingPageControllerImp>(builder: (controller) {
+              GetBuilder<ObtainPageControllerImp>(builder: (controller) {
                 return SegmentedButton(
                   showSelectedIcon: false,
+                  multiSelectionEnabled: true,
                   style: SegmentedButton.styleFrom(
                       side: BorderSide(color: AppColors.primaryColor)),
-                  segments: List.generate(bloodGroup.length, (index) {
+                  segments: List.generate(bloodGropP.length, (index) {
                     return ButtonSegment(
-                        value: bloodGroup[index],
-                        label: Text(bloodGroup[index]));
+                        value: bloodGropP[index],
+                        label: Text(
+                          bloodGropP[index],
+                          textDirection: TextDirection.ltr,
+                        ));
                   }),
-                  selected: {controller.bloodtype},
+                  selected: controller.bloodtypeP,
                   onSelectionChanged: (val) {
-                    controller.bloodtype = val.first;
+                    controller.bloodtypeP = val;
                     controller.update();
                   },
                 );
@@ -136,22 +175,23 @@ class DonatingPage extends StatelessWidget {
               const SizedBox(
                 height: 30,
               ),
-              GetBuilder<DonatingPageControllerImp>(builder: (controller) {
+              GetBuilder<ObtainPageControllerImp>(builder: (controller) {
                 return SegmentedButton(
+                  multiSelectionEnabled: true,
                   showSelectedIcon: false,
                   style: SegmentedButton.styleFrom(
                       side: BorderSide(color: AppColors.primaryColor)),
-                  segments: const [
-                    ButtonSegment(
-                        value: "Rh+",
-                        label: Text("Rh+", textDirection: TextDirection.ltr)),
-                    ButtonSegment(
-                        value: "Rh-",
-                        label: Text("Rh-", textDirection: TextDirection.ltr))
-                  ],
-                  selected: {controller.rh},
+                  segments: List.generate(bloodGropN.length, (index) {
+                    return ButtonSegment(
+                        value: bloodGropN[index],
+                        label: Text(
+                          bloodGropN[index],
+                          textDirection: TextDirection.ltr,
+                        ));
+                  }),
+                  selected: controller.bloodtypeN,
                   onSelectionChanged: (val) {
-                    controller.rh = val.first;
+                    controller.bloodtypeN = val;
                     controller.update();
                   },
                 );
@@ -159,7 +199,7 @@ class DonatingPage extends StatelessWidget {
               const SizedBox(
                 height: 30,
               ),
-              GetBuilder<DonatingPageControllerImp>(builder: (controller) {
+              GetBuilder<ObtainPageControllerImp>(builder: (controller) {
                 return ElevatedButton(
                   onPressed: () {
                     controller.confirmOrder();
