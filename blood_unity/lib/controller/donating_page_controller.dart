@@ -12,46 +12,44 @@ abstract class DonatingPageController extends GetxController {
 }
 
 class DonatingPageControllerImp extends DonatingPageController {
-  late TextEditingController firstName;
+  TextEditingController firstName = TextEditingController();
   late GlobalKey<FormState> firstNameFormState;
 
-  late TextEditingController lastName;
+  late TextEditingController lastName = TextEditingController();
   late GlobalKey<FormState> lastNameFormState;
   late FocusNode lastNameFocusNode;
 
-  late TextEditingController phone;
+  late TextEditingController phone = TextEditingController();
   late GlobalKey<FormState> phoneFormState;
   late FocusNode phoneFocusNode;
 
-  late TextEditingController malady;
+  late TextEditingController malady = TextEditingController();
   late GlobalKey<FormState> maladyFormState;
   late FocusNode maladyFocusNode;
 
-  String governorate = "";
+  String governorate = "Damascus";
   late GlobalKey<FormState> governorateFormState;
   late FocusNode governorateFocusNode;
 
   String bloodtype = "";
   String rh = "";
   bool isLoading = false;
+  String? docId;
 
   var userid = FirebaseAuth.instance.currentUser!.uid;
   FirebaseFirestore storeInstance = FirebaseFirestore.instance;
 
   @override
   void onInit() {
-    firstName = TextEditingController();
+    initialValue();
     firstNameFormState = GlobalKey<FormState>();
 
-    lastName = TextEditingController();
     lastNameFormState = GlobalKey<FormState>();
     lastNameFocusNode = FocusNode();
 
-    phone = TextEditingController();
     phoneFormState = GlobalKey<FormState>();
     phoneFocusNode = FocusNode();
 
-    malady = TextEditingController();
     maladyFormState = GlobalKey<FormState>();
     maladyFocusNode = FocusNode();
 
@@ -69,16 +67,35 @@ class DonatingPageControllerImp extends DonatingPageController {
       if (bloodtype != "" && rh != "") {
         if (await checkConnection()) {
           try {
-            await storeInstance.collection("donating_order").doc().set({
-              "name": "${firstName.text.trim()} ${lastName.text.trim()}",
-              "phone": phone.text.trim(),
-              "malady": malady.text.trim(),
-              "governorate": governorate,
-              "bloodtyp": bloodtype,
-              "uid": userid,
-              "Rh": rh,
-              "status": "new"
-            });
+            if (docId == null) {
+              await storeInstance.collection("donating_order").doc().set({
+                "name": "${firstName.text.trim()} ${lastName.text.trim()}",
+                "phone": phone.text.trim(),
+                "malady": malady.text.trim(),
+                "governorate": governorate,
+                "bloodtyp": bloodtype,
+                "uid": userid,
+                "Rh": rh,
+                "status": "new",
+                "date": DateTime.now()
+              });
+            } else {
+              await storeInstance
+                  .collection("donating_order")
+                  .doc(docId)
+                  .update({
+                "name": "${firstName.text.trim()} ${lastName.text.trim()}",
+                "phone": phone.text.trim(),
+                "malady": malady.text.trim(),
+                "governorate": governorate,
+                "bloodtyp": bloodtype,
+                "uid": userid,
+                "Rh": rh,
+                "status": "new",
+                "date": DateTime.now()
+              });
+              Get.back();
+            }
             Get.back();
             Get.back();
 
@@ -120,5 +137,21 @@ class DonatingPageControllerImp extends DonatingPageController {
       errorSnackBar("Check internet connection".tr);
       return false;
     }
+  }
+
+  void initialValue() {
+    final Map arguments = Get.arguments;
+    if (arguments.isNotEmpty) {
+      firstName.text = arguments["firstName"];
+      lastName.text = arguments["lastName"];
+      phone.text = arguments["phone"];
+      malady.text = arguments["malady"];
+      bloodtype = arguments["bloodType"];
+      rh = arguments["Rh"];
+      governorate = arguments["governorate"];
+      docId = arguments["id"];
+    }
+
+    print(docId);
   }
 }

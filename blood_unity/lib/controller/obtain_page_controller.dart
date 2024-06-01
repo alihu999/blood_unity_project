@@ -13,54 +13,52 @@ abstract class ObtainPageController extends GetxController {
 }
 
 class ObtainPageControllerImp extends ObtainPageController {
-  late TextEditingController firstName;
+  TextEditingController firstName = TextEditingController();
   late GlobalKey<FormState> firstNameFormState;
 
-  late TextEditingController lastName;
+  TextEditingController lastName = TextEditingController();
   late GlobalKey<FormState> lastNameFormState;
   late FocusNode lastNameFocusNode;
 
-  late TextEditingController phone;
+  TextEditingController phone = TextEditingController();
   late GlobalKey<FormState> phoneFormState;
   late FocusNode phoneFocusNode;
 
-  late TextEditingController status;
+  TextEditingController status = TextEditingController();
   late GlobalKey<FormState> statusFormState;
   late FocusNode statusFocusNode;
 
-  late TextEditingController numberUnits;
+  TextEditingController numberUnits = TextEditingController();
   late GlobalKey<FormState> numberUnitsFormState;
   late FocusNode numberUnitsFocusNode;
 
-  String governorate = "";
+  String governorate = "Damascus";
   late GlobalKey<FormState> governorateFormState;
   late FocusNode governorateFocusNode;
 
   Set<String> bloodtypeP = {""};
   Set<String> bloodtypeN = {""};
   bool isLoading = false;
+  String? docId;
 
   var userid = FirebaseAuth.instance.currentUser!.uid;
   FirebaseFirestore storeInstance = FirebaseFirestore.instance;
 
   @override
   void onInit() {
-    firstName = TextEditingController();
+    initialValue();
+
     firstNameFormState = GlobalKey<FormState>();
 
-    lastName = TextEditingController();
     lastNameFormState = GlobalKey<FormState>();
     lastNameFocusNode = FocusNode();
 
-    phone = TextEditingController();
     phoneFormState = GlobalKey<FormState>();
     phoneFocusNode = FocusNode();
 
-    status = TextEditingController();
     statusFormState = GlobalKey<FormState>();
     statusFocusNode = FocusNode();
 
-    numberUnits = TextEditingController();
     numberUnitsFormState = GlobalKey<FormState>();
     numberUnitsFocusNode = FocusNode();
 
@@ -77,21 +75,36 @@ class ObtainPageControllerImp extends ObtainPageController {
 
     isLoading = true;
     update();
-    print(bloodtype);
     if (checkForm()) {
       if (bloodtype.isNotEmpty) {
         if (await checkConnection()) {
           try {
-            await storeInstance.collection("obtain_order").doc().set({
-              "name": "${firstName.text.trim()} ${lastName.text.trim()}",
-              "phone": phone.text.trim(),
-              "Health status": status.text.trim(),
-              "governorate": governorate,
-              "bloodtyp": bloodtype,
-              "number of Units": numberUnits.text.trim(),
-              "uid": userid,
-              "status": "new"
-            });
+            if (docId == null) {
+              await storeInstance.collection("obtain_order").doc().set({
+                "name": "${firstName.text.trim()} ${lastName.text.trim()}",
+                "phone": phone.text.trim(),
+                "Health status": status.text.trim(),
+                "governorate": governorate,
+                "bloodtyp": bloodtype,
+                "number of Units": numberUnits.text.trim(),
+                "uid": userid,
+                "status": "new",
+                "date": DateTime.now()
+              });
+            } else {
+              await storeInstance.collection("obtain_order").doc(docId).update({
+                "name": "${firstName.text.trim()} ${lastName.text.trim()}",
+                "phone": phone.text.trim(),
+                "Health status": status.text.trim(),
+                "governorate": governorate,
+                "bloodtyp": bloodtype,
+                "number of Units": numberUnits.text.trim(),
+                "uid": userid,
+                "status": "new",
+                "date": DateTime.now()
+              });
+              Get.back();
+            }
             Get.back();
             Get.back();
 
@@ -133,6 +146,21 @@ class ObtainPageControllerImp extends ObtainPageController {
     } else {
       errorSnackBar("Check internet connection".tr);
       return false;
+    }
+  }
+
+  void initialValue() {
+    final Map arguments = Get.arguments;
+    if (arguments.isNotEmpty) {
+      firstName.text = arguments["firstName"];
+      lastName.text = arguments["lastName"];
+      phone.text = arguments["phone"];
+      status.text = arguments["status"];
+      numberUnits.text = arguments["numberUnits"];
+      bloodtypeN = arguments["bloodtypeN"];
+      bloodtypeP = arguments["bloodtypeP"];
+      governorate = arguments["governorate"];
+      docId = arguments["id"];
     }
   }
 }

@@ -14,6 +14,7 @@ class GovernorateDrowpdown extends GetView<ObtainPageControllerImp> {
       key: controller.governorateFormState,
       child: DropdownButtonFormField(
         menuMaxHeight: 200,
+        value: controller.governorate,
         borderRadius: const BorderRadius.all(Radius.zero),
         hint: Text(
           "governorate".tr,
@@ -26,7 +27,7 @@ class GovernorateDrowpdown extends GetView<ObtainPageControllerImp> {
               : null;
         },
         items: List.generate(governorates.length, (index) {
-          return DropdownMenuItem(
+          return DropdownMenuItem<String>(
             value: governorates[index],
             child: Text(governorates[index].tr),
           );

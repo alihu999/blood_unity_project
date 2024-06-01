@@ -13,6 +13,7 @@ class GovernorateDrowpdown extends GetView<DonatingPageControllerImp> {
     return Form(
       key: controller.governorateFormState,
       child: DropdownButtonFormField(
+        value: controller.governorate,
         menuMaxHeight: 200,
         borderRadius: const BorderRadius.all(Radius.zero),
         hint: Text(

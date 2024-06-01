@@ -78,7 +78,13 @@ class MyTranslations implements Translations {
           "Health status": "الحالة الصحية",
           "Number of units": "عدد الوحدات",
           "You must enter health status": "يجب عليك إدخال الحالة الصحية",
-          "You must enter the number of units": ""
+          "You must enter the number of units": "يجب عليك إدخال عدد الوحدات",
+          "order": "الطلبات",
+          "connect us": "تواصل معنا",
+          "sign out": "تسجيل الخروج",
+          "add orders": "إضافة طلب",
+          "There are no previous order": "لايوجد طلبات سابقة",
+          "Notifications": "إشعارات"
         },
         "en": {
           "selectLan": "Please ,Select Language",
@@ -155,7 +161,13 @@ class MyTranslations implements Translations {
           "Number of units": "Number of units",
           "You must enter health status": "You must enter health status",
           "You must enter the number of units":
-              "You must enter the number of units"
+              "You must enter the number of units",
+          "order": "Orders",
+          "connect us": "connect us",
+          "sign out": "sign out",
+          "add orders": "Add orders",
+          "There are no previous order": "There are no previous order",
+          "Notifications": "Notifications"
         }
       };
 }
