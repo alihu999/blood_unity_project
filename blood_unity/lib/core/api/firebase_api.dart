@@ -4,8 +4,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:get/get.dart';
 
-import '../../data/model/notification_model.dart';
-
 class FirebaseApi {
   final _firebaseMessaging = FirebaseMessaging.instance;
   MyServices myServices = Get.find();
@@ -26,15 +24,6 @@ class FirebaseApi {
       Get.offAllNamed(AppRoutes.homePage);
     } else {
       Get.offAllNamed(AppRoutes.selectLanguge);
-    }
-
-    try {
-      myServices.getNotifications().add(NotificationModel(
-          title: message.notification?.title,
-          text: message.notification?.body,
-          reciveTime: message.sentTime!));
-    } catch (e) {
-      print(e);
     }
   }
 

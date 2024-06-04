@@ -1,5 +1,6 @@
 import 'package:blood_unity/controller/home_page_controller.dart';
 import 'package:blood_unity/core/constant/app_color.dart';
+import 'package:blood_unity/core/share/diference_time.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -19,6 +20,7 @@ class NotificationDialog extends StatelessWidget {
                   child: Text("There are no notifications"),
                 )
               : ListView.builder(
+                  reverse: true,
                   itemCount: controller.notifications.length,
                   itemBuilder: (context, index) {
                     return ListTile(
@@ -34,7 +36,8 @@ class NotificationDialog extends StatelessWidget {
                       subtitle: Text(controller.notifications[index].text,
                           textDirection: TextDirection.rtl,
                           style: const TextStyle(fontSize: 12)),
-                      leading: const Text("5 h"),
+                      leading: Text(diferenceTime(
+                          controller.notifications[index].reciveTime)),
                     );
                   }));
     });

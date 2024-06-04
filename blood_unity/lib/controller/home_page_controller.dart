@@ -16,6 +16,7 @@ abstract class HomePageController extends GetxController {
   Future getArticle();
   signOut();
   openNotificationDialog();
+  getNewnotification();
 }
 
 class HomePageControllerImp extends HomePageController {
@@ -26,15 +27,14 @@ class HomePageControllerImp extends HomePageController {
   var user = FirebaseAuth.instance.currentUser!;
 
   RxList notifications = [].obs;
+  RxList newNotificatios = [].obs;
 
   @override
   void onInit() {
     sharedPrefLang = myServices.sharedPreferences.getString("lang");
     notifications.value = myServices.getNotifications().values.toList();
 
-    for (NotificationModel noti in notifications) {
-      print("${noti.title} ${noti.text} ");
-    }
+    getNewnotification();
 
     foreGroundNotification();
     super.onInit();
@@ -78,7 +78,7 @@ class HomePageControllerImp extends HomePageController {
           title: message.notification?.title,
           text: message.notification?.body,
           reciveTime: message.sentTime!));
-      notifications.value = myServices.getNotifications().values.toList();
+      getNewnotification();
     });
   }
 
@@ -95,20 +95,24 @@ class HomePageControllerImp extends HomePageController {
     notifications.value = myServices.getNotifications().values.toList();
     Get.defaultDialog(
         onWillPop: () {
-          List<NotificationModel> newNotificatios = myServices
-              .getNotifications()
-              .values
-              .where((element) => element.status == "new")
-              .toList();
-
           for (NotificationModel noti in newNotificatios) {
             noti.status = "read";
             noti.save();
           }
+          getNewnotification();
           return Future(() => true);
         },
         contentPadding: const EdgeInsets.only(right: 0, left: 0),
         title: "Notifications".tr,
         content: const NotificationDialog());
+  }
+
+  @override
+  getNewnotification() {
+    newNotificatios.value = myServices
+        .getNotifications()
+        .values
+        .where((element) => element.status == "new")
+        .toList();
   }
 }

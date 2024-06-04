@@ -3,12 +3,12 @@ import 'package:blood_unity/core/constant/app_color.dart';
 import 'package:blood_unity/core/constant/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:badges/badges.dart' as badges;
 
 import 'widget/article.dart';
 import 'widget/custom_drawer.dart';
 import 'widget/news_ar.dart';
 import 'widget/news_en.dart';
-import 'widget/notification.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -31,16 +31,29 @@ class HomePage extends StatelessWidget {
           actions: [
             Padding(
                 padding: const EdgeInsets.only(left: 15, right: 15),
-                child: IconButton(
-                  icon: const Icon(
-                    Icons.notifications,
-                    size: 30,
-                    color: Colors.white,
-                  ),
-                  onPressed: () {
-                    controller.openNotificationDialog();
-                  },
-                ))
+                child: GetX<HomePageControllerImp>(builder: (controller) {
+                  return IconButton(
+                    icon: badges.Badge(
+                      badgeStyle: const badges.BadgeStyle(
+                        badgeColor: Colors.white,
+                      ),
+                      showBadge:
+                          controller.newNotificatios.isNotEmpty ? true : false,
+                      badgeContent: Text(
+                        "${controller.newNotificatios.length}",
+                        style: const TextStyle(fontSize: 11),
+                      ),
+                      child: const Icon(
+                        Icons.notifications,
+                        size: 30,
+                        color: Colors.white,
+                      ),
+                    ),
+                    onPressed: () {
+                      controller.openNotificationDialog();
+                    },
+                  );
+                }))
           ],
           centerTitle: true,
           backgroundColor: AppColors.primaryColor,
