@@ -92,7 +92,8 @@ class HomePageControllerImp extends HomePageController {
     for (NotificationModel noti in deleteNotificatios) {
       noti.delete();
     }
-    notifications.value = myServices.getNotifications().values.toList();
+    notifications.value =
+        myServices.getNotifications().values.toList().reversed.toList();
     Get.defaultDialog(
         onWillPop: () {
           for (NotificationModel noti in newNotificatios) {

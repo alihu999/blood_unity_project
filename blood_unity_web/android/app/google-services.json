@@ -1,0 +1,90 @@
+{
+  "project_info": {
+    "project_number": "406949483716",
+    "project_id": "blood-unity-cbba1",
+    "storage_bucket": "blood-unity-cbba1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:406949483716:android:cd869c145e0961d1842591",
+        "android_client_info": {
+          "package_name": "com.example.blood_unity"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "406949483716-cne3t8q4qk7q4s2ju3usjqicht632phn.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.blood_unity",
+            "certificate_hash": "5dfc12dbfc2262bc78468632567472cda54dfaa5"
+          }
+        },
+        {
+          "client_id": "406949483716-dnqpon86dc8naudvdip156lijj7di12p.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBfg6qLrTyWKZZR-qHAKmkWRDDO8yjs-ZM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "406949483716-dnqpon86dc8naudvdip156lijj7di12p.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "406949483716-arfmcdvrpeeh5efb3448ucjk11nrk42e.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.bloodUnity"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:406949483716:android:a4a0a63c29592899842591",
+        "android_client_info": {
+          "package_name": "com.example.blood_unity_web"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "406949483716-dnqpon86dc8naudvdip156lijj7di12p.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBfg6qLrTyWKZZR-qHAKmkWRDDO8yjs-ZM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "406949483716-dnqpon86dc8naudvdip156lijj7di12p.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "406949483716-arfmcdvrpeeh5efb3448ucjk11nrk42e.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.bloodUnity"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

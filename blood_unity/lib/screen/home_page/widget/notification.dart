@@ -20,7 +20,6 @@ class NotificationDialog extends StatelessWidget {
                   child: Text("There are no notifications"),
                 )
               : ListView.builder(
-                  reverse: true,
                   itemCount: controller.notifications.length,
                   itemBuilder: (context, index) {
                     return ListTile(
