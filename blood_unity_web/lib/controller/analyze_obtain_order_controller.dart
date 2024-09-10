@@ -30,6 +30,11 @@ class AnalyzeObtainOrderControllerImp extends AnalyzeObtainOrderController {
   int abNtype = 0;
 
   String governorates = "All Governorates";
+
+  Map<String, List<int>> flch = {};
+  String selectedYear = DateTime.now().year.toString();
+  RxBool isLoading = true.obs;
+
   @override
   void onInit() async {
     obtainOrder = await getObtainOrders();
@@ -52,8 +57,12 @@ class AnalyzeObtainOrderControllerImp extends AnalyzeObtainOrderController {
         }
 
         calculateBloodType(order["bloodtyp"]);
+        lineFlCh(
+            DateTime.fromMillisecondsSinceEpoch(order["date"].seconds * 1000));
       }
     }
+    isLoading.value = false;
+
     update();
   }
 
@@ -115,6 +124,15 @@ class AnalyzeObtainOrderControllerImp extends AnalyzeObtainOrderController {
     } else {
       obtainOrder = await getObtainOrders();
       checkorder();
+    }
+  }
+
+  lineFlCh(DateTime dateTime) {
+    if (flch.keys.toList().contains(dateTime.year.toString())) {
+      flch[dateTime.year.toString()]![dateTime.month - 1]++;
+    } else {
+      flch[dateTime.year.toString()] = List.generate(12, (index) => 0);
+      flch[dateTime.year.toString()]![dateTime.month - 1]++;
     }
   }
 }

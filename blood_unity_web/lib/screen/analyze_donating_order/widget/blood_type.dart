@@ -22,7 +22,7 @@ class BloodType extends StatelessWidget {
             height: 30,
           ),
           CustomBox(
-              title: "Required blood types",
+              title: "blood types",
               number: controller.allBloodType.toString(),
               percentage: "100%"),
           const SizedBox(

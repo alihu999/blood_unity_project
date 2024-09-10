@@ -77,8 +77,8 @@ class ListArticle extends GetView<HomePageControllerImp> {
                                               Radius.circular(25)),
                                           image: DecorationImage(
                                               fit: BoxFit.cover,
-                                              image: NetworkImage(snapshot
-                                                  .data![index]["urlimage"]))),
+                                              image: NetworkImage(
+                                                  "https://cors-anywhere.herokuapp.com/${snapshot.data![index]["urlimage"]}"))),
                                     ),
                                     Text(
                                       snapshot.data![index]["title"],

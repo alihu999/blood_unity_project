@@ -32,9 +32,14 @@ class AnalyzeDonatingOrderControllerImp extends AnalyzeDonatingOrderController {
 
   String governorates = "All Governorates";
 
+  Map<String, List<int>> flch = {};
+  String selectedYear = DateTime.now().year.toString();
+  RxBool isLoading = true.obs;
+
   @override
   void onInit() async {
     donatingOrder = await getDonatingOrders();
+
     checkorder();
 
     super.onInit();
@@ -55,8 +60,11 @@ class AnalyzeDonatingOrderControllerImp extends AnalyzeDonatingOrderController {
           cancelledOrder++;
         }
         calculateBloodType(order["bloodtyp"], order["Rh"]);
+        lineFlCh(
+            DateTime.fromMillisecondsSinceEpoch(order["date"].seconds * 1000));
       }
     }
+    isLoading.value = false;
     update();
   }
 
@@ -94,7 +102,7 @@ class AnalyzeDonatingOrderControllerImp extends AnalyzeDonatingOrderController {
         errorSnackBar(e.toString());
       }
     } else {
-      donatingOrder = await getObtainOrders();
+      donatingOrder = await getDonatingOrders();
       checkorder();
     }
   }
@@ -122,6 +130,15 @@ class AnalyzeDonatingOrderControllerImp extends AnalyzeDonatingOrderController {
       } else {
         abNtype++;
       }
+    }
+  }
+
+  lineFlCh(DateTime dateTime) {
+    if (flch.keys.toList().contains(dateTime.year.toString())) {
+      flch[dateTime.year.toString()]![dateTime.month - 1]++;
+    } else {
+      flch[dateTime.year.toString()] = List.generate(12, (index) => 0);
+      flch[dateTime.year.toString()]![dateTime.month - 1]++;
     }
   }
 }

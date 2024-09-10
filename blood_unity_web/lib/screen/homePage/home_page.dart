@@ -19,53 +19,46 @@ class HomePage extends StatelessWidget {
 
     Get.put(HomePageControllerImp());
 
-    return Scaffold(
-        body: SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          child: GetX<HomePageControllerImp>(
-            builder: (controller) {
-              return Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const SideBar(),
-                  if (controller.selectedIndex.value == 0) const Event(),
-                  if (controller.selectedIndex.value == 1) const Article(),
-                  if (controller.selectedIndex.value == 2) const ObtainOrders(),
-                  if (controller.selectedIndex.value == 3)
-                    const DonatingOrders(),
-                ],
-              );
-            },
-          ),
-        ),
-        floatingActionButton:
-            GetX<HomePageControllerImp>(builder: (controller) {
-          if (width < 1000 &&
-              (controller.selectedIndex.value == 0 ||
-                  controller.selectedIndex.value == 1)) {
-            return const AddFloatingButton();
-          } else if (controller.selectedIndex.value == 2) {
-            return FloatingActionButton(
-                child: const Icon(
-                  Icons.bar_chart,
-                  size: 30,
-                ),
-                onPressed: () {
-                  Get.toNamed(AppRoutes.analyzeObtainOrder);
-                });
-          } else if (controller.selectedIndex.value == 3) {
-            return FloatingActionButton(
-                child: const Icon(
-                  Icons.bar_chart,
-                  size: 30,
-                ),
-                onPressed: () {
-                  Get.toNamed(AppRoutes.analyzeDonatingOrder);
-                });
-          } else {
-            controller.selectedIndex.value;
-            return const SizedBox();
-          }
-        }));
+    return Scaffold(body: GetX<HomePageControllerImp>(
+      builder: (controller) {
+        return Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            const SideBar(),
+            if (controller.selectedIndex.value == 0) const Event(),
+            if (controller.selectedIndex.value == 1) const Article(),
+            if (controller.selectedIndex.value == 2) const ObtainOrders(),
+            if (controller.selectedIndex.value == 3) const DonatingOrders(),
+          ],
+        );
+      },
+    ), floatingActionButton: GetX<HomePageControllerImp>(builder: (controller) {
+      if (width < 1000 &&
+          (controller.selectedIndex.value == 0 ||
+              controller.selectedIndex.value == 1)) {
+        return const AddFloatingButton();
+      } else if (controller.selectedIndex.value == 2) {
+        return FloatingActionButton(
+            child: const Icon(
+              Icons.bar_chart,
+              size: 30,
+            ),
+            onPressed: () {
+              Get.toNamed(AppRoutes.analyzeObtainOrder);
+            });
+      } else if (controller.selectedIndex.value == 3) {
+        return FloatingActionButton(
+            child: const Icon(
+              Icons.bar_chart,
+              size: 30,
+            ),
+            onPressed: () {
+              Get.toNamed(AppRoutes.analyzeDonatingOrder);
+            });
+      } else {
+        controller.selectedIndex.value;
+        return const SizedBox();
+      }
+    }));
   }
 }
